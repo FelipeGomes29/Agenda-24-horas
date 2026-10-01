@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/* Tema escuro controlado pela classe .dark no <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Tokens ---------- */
+:root {
+  --canvas: #eceff2;
+  --surface: #fafbfc;
+  --sunken: #e2e7eb;
+  --ink: #12202c;
+  --ink-soft: #566672;
+  --line: #d3dbe1;
+  --line-soft: #e1e7eb;
+  --primary: #12202c;
+  --primary-ink: #f5f8fa;
+  --sun: #f2a30f;
+  --danger: #c42b36;
+
+  /* Faixa do céu: a coluna do tempo mostra a luz das 24h */
+  --sky-night: #263d6e;
+  --sky-dawn: #f0a47c;
+  --sky-day: #c6e6f5;
+  --sky-gold: #f6d27a;
+  --sky-dusk: #d8718a;
+
+  /* Lavagem sutil dentro das colunas (com transparência) */
+  --wash-night: rgb(38 61 110 / 0.09);
+  --wash-dawn: rgb(240 164 124 / 0.08);
+  --wash-day: rgb(198 230 245 / 0);
+  --wash-gold: rgb(246 210 122 / 0.09);
+  --wash-dusk: rgb(216 113 138 / 0.08);
+}
+
+.dark {
+  --canvas: #0b121b;
+  --surface: #111b27;
+  --sunken: #0a0f16;
+  --ink: #e4ecf2;
+  --ink-soft: #8fa2b1;
+  --line: #223244;
+  --line-soft: #182534;
+  --primary: #e4ecf2;
+  --primary-ink: #0b121b;
+  --sun: #ffc24d;
+  --danger: #ff7078;
+
+  --sky-night: #172a52;
+  --sky-dawn: #b9704f;
+  --sky-day: #4f86a8;
+  --sky-gold: #b3913f;
+  --sky-dusk: #8e4560;
+
+  --wash-night: rgb(0 0 0 / 0.22);
+  --wash-dawn: rgb(185 112 79 / 0.07);
+  --wash-day: rgb(120 175 215 / 0.06);
+  --wash-gold: rgb(179 145 63 / 0.07);
+  --wash-dusk: rgb(142 69 96 / 0.08);
+}
+
+@theme inline {
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-primary: var(--primary);
+  --color-primary-ink: var(--primary-ink);
+  --color-sun: var(--sun);
+  --color-danger: var(--danger);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---------- Categorias: uma regra só, com matiz vindo do JS ---------- */
+.cat {
+  --k: 1;
+  --tone: oklch(0.58 calc(0.16 * var(--k)) var(--h));
+  --tint: oklch(0.945 calc(0.045 * var(--k)) var(--h));
+  --tint-ink: oklch(0.3 calc(0.08 * var(--k)) var(--h));
+}
+.dark .cat {
+  --tone: oklch(0.74 calc(0.14 * var(--k)) var(--h));
+  --tint: oklch(0.3 calc(0.05 * var(--k)) var(--h));
+  --tint-ink: oklch(0.93 calc(0.035 * var(--k)) var(--h));
+}
+.cat-block {
+  background: var(--tint);
+  color: var(--tint-ink);
+  border-left: 3px solid var(--tone);
+}
+.cat-dot {
+  background: var(--tone);
+}
+
+/* ---------- Grade de horas ---------- */
+.hour-lines {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(var(--line-soft) 1px, transparent 1px);
+  background-size:
+    100% var(--hour-px),
+    100% calc(var(--hour-px) / 2);
+}
+
+/* Mesma curva de luz nas duas versões: noite, amanhecer, dia, entardecer, noite */
+.sky-wash {
+  background-image: linear-gradient(
+    to bottom,
+    var(--wash-night) 0%,
+    var(--wash-night) 20%,
+    var(--wash-dawn) 28%,
+    var(--wash-day) 36%,
+    var(--wash-day) 68%,
+    var(--wash-gold) 75%,
+    var(--wash-dusk) 82%,
+    var(--wash-night) 91%,
+    var(--wash-night) 100%
+  );
+}
+.sky-strip {
+  background-image: linear-gradient(
+    to bottom,
+    var(--sky-night) 0%,
+    var(--sky-night) 20%,
+    var(--sky-dawn) 28%,
+    var(--sky-day) 36%,
+    var(--sky-day) 68%,
+    var(--sky-gold) 75%,
+    var(--sky-dusk) 82%,
+    var(--sky-night) 91%,
+    var(--sky-night) 100%
+  );
+}
+
+.num-display {
+  font-stretch: 85%;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
