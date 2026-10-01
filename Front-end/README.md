@@ -1,7 +1,7 @@
 # Planner 24h (front-end)
 
 Planejador com a semana inteira em 24h, uma visão de foco do dia e uma caixa para tarefas sem data.
-React + Vite + Tailwind CSS 4, em JavaScript.
+React + Vite + Tailwind CSS , JavaScript.
 
 ## Rodando
 
@@ -45,24 +45,13 @@ src/
 
 ## Ligando ao back-end
 
-Só `src/api/tasks.js` conversa com o armazenamento. Mantenha as quatro funções
-(`getTasks`, `createTask`, `updateTask`, `deleteTask`) e troque o corpo por chamadas HTTP:
+O front escolhe a fonte de dados em `src/api/tasks.js`:
 
-```
-GET /api/tasks            PATCH  /api/tasks/:id
-POST /api/tasks           DELETE /api/tasks/:id
-```
+- com `VITE_API_URL` definida (veja `.env.example`), usa a API Express/PostgreSQL (`tasksHttp.js`);
+- sem ela, usa `localStorage` (`tasksLocal.js`).
 
-Forma da tarefa:
-
-```js
-{ id, title, notes, category, priority, duration, start, someday, done, createdAt }
-// start: 'YYYY-MM-DDTHH:mm' (horário local) ou null quando está na caixa
-// duration: minutos
-```
-
-O back-end deve validar tudo de novo (o front já limita título a 120 caracteres,
-anotações a 1000 e duração a 5..1440 min, mas isso não substitui a validação do servidor).
+Depois de mudar o `.env`, reinicie o `npm run dev`. A API precisa liberar a origem do front em `CORS_ORIGIN`.
+O contrato das rotas e o formato da tarefa estão em `server/README.md`.
 
 ## Decisões e limites conhecidos
 
@@ -70,4 +59,4 @@ anotações a 1000 e duração a 5..1440 min, mas isso não substitui a validaç
 - Sem fuso horário: `start` é o relógio local da pessoa.
 - No celular, a caixa abre como painel lateral; para agendar, toque na tarefa e escolha dia e hora
   (arrastar da caixa funciona melhor no desktop).
-- Ainda não há login, tarefas recorrentes nem sincronização entre dispositivos.
+- Ainda não há login nem tarefas recorrentes. Sem login, a sincronização entre dispositivos depende de a API ser compartilhada.
