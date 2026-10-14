@@ -20,7 +20,6 @@ import { dateFromMinutes, toLocalISO } from '../utils/date.js'
 import { DAY_MIN, SNAP_MIN, clamp, minutesToPx, pxToMinutes, snap } from '../utils/layout.js'
 import { INBOX_GRAB, getPointer, snapInboxToCursor } from '../utils/pointer.js'
 
-// Quem recebe o drop é decidido pela posição do ponteiro (mais previsível que a área da prévia).
 const collisionDetection = (args) => {
   const hits = pointerWithin(args)
   return hits.length ? hits : rectIntersection(args)
@@ -28,7 +27,7 @@ const collisionDetection = (args) => {
 
 export default function PlannerLayout() {
   const { tasks, error, clearError, addTask, updateTask, removeTask, schedule, unschedule } = useTasks()
-  const [modal, setModal] = useState(null) // { key, task?, defaults? }
+  const [modal, setModal] = useState(null)
   const [inboxOpen, setInboxOpen] = useState(false)
   const [drag, setDrag] = useState(null)
 
@@ -62,12 +61,10 @@ export default function PlannerLayout() {
     const pointer = getPointer(activatorEvent)
     if (!column || !pointer) return
 
-    // Topo da prévia = posição do ponteiro menos o ponto onde ela foi "segurada".
     const grabY = data.type === 'inbox' ? INBOX_GRAB.y : pointer.y - (active.rect.current.initial?.top ?? pointer.y)
     const topInViewport = pointer.y + delta.y - grabY
     const minutes = clamp(snap(pxToMinutes(topInViewport - column.getBoundingClientRect().top)), 0, DAY_MIN - SNAP_MIN)
 
-    // Se o segmento arrastado é a continuação de uma tarefa da noite anterior, recua o início.
     const offset = data.segOffset ?? 0
     schedule(task.id, toLocalISO(dateFromMinutes(iso, minutes - offset)))
   }

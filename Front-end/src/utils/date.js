@@ -53,7 +53,6 @@ export function weekDays(d) {
   return Array.from({ length: 7 }, (_, i) => addDays(start, i))
 }
 
-/** Data/hora a partir de um dia ISO + minutos (aceita negativos e > 1440). */
 export function dateFromMinutes(iso, minutes) {
   const [y, m, d] = iso.split('-').map(Number)
   return new Date(y, m - 1, d, 0, minutes, 0, 0)

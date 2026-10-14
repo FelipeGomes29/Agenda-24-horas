@@ -1,4 +1,3 @@
-// Posição do ponteiro a partir do evento que iniciou o arraste (mouse ou toque).
 export function getPointer(event) {
   if (!event) return null
   const touch = event.touches?.[0] ?? event.changedTouches?.[0]
@@ -7,10 +6,8 @@ export function getPointer(event) {
   return null
 }
 
-// Onde o ponteiro "segura" a prévia de uma tarefa vinda da caixa.
 export const INBOX_GRAB = { x: 14, y: 10 }
 
-// Modificador do DragOverlay: cola o canto da prévia no cursor.
 export function snapInboxToCursor({ activatorEvent, draggingNodeRect, transform }) {
   const p = getPointer(activatorEvent)
   if (!p || !draggingNodeRect) return transform

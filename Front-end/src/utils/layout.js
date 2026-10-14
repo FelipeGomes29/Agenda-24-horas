@@ -29,7 +29,7 @@ export function segmentForDay(task, iso) {
     task,
     start: Math.round((s - dayStart) / 60000),
     end: Math.round((e - dayStart) / 60000),
-    offset: Math.round((s - startMs) / 60000), // minutos desde o início real da tarefa
+    offset: Math.round((s - startMs) / 60000),
     continuesBefore: s > startMs,
     continuesAfter: e < endMs,
   }

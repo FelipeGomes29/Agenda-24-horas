@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
-/* Tema escuro controlado pela classe .dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Tokens ---------- */
 :root {
   --canvas: #eceff2;
   --surface: #fafbfc;
@@ -17,14 +15,12 @@
   --sun: #f2a30f;
   --danger: #c42b36;
 
-  /* Faixa do céu: a coluna do tempo mostra a luz das 24h */
   --sky-night: #263d6e;
   --sky-dawn: #f0a47c;
   --sky-day: #c6e6f5;
   --sky-gold: #f6d27a;
   --sky-dusk: #d8718a;
 
-  /* Lavagem sutil dentro das colunas (com transparência) */
   --wash-night: rgb(38 61 110 / 0.09);
   --wash-dawn: rgb(240 164 124 / 0.08);
   --wash-day: rgb(198 230 245 / 0);
@@ -91,7 +87,6 @@ body {
   outline-offset: 2px;
 }
 
-/* ---------- Categorias: uma regra só, com matiz vindo do JS ---------- */
 .cat {
   --k: 1;
   --tone: oklch(0.58 calc(0.16 * var(--k)) var(--h));
@@ -112,7 +107,6 @@ body {
   background: var(--tone);
 }
 
-/* ---------- Grade de horas ---------- */
 .hour-lines {
   background-image:
     linear-gradient(var(--line) 1px, transparent 1px),
@@ -122,7 +116,6 @@ body {
     100% calc(var(--hour-px) / 2);
 }
 
-/* Mesma curva de luz nas duas versões: noite, amanhecer, dia, entardecer, noite */
 .sky-wash {
   background-image: linear-gradient(
     to bottom,
